@@ -19,6 +19,7 @@ services:
       - db
     ports:
       - "5000:5000"
+      - "8000:8000"
 
   db:
     image: mysql:5.7
@@ -44,6 +45,17 @@ services:
       - "800:800"
     depends_on:
       - flask_app
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    networks:
+      - app_network
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+  
 
 networks:
   app_network:
